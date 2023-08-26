@@ -1,75 +1,65 @@
 "use client"
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useSpring, animated } from '@react-spring/web'
+import { BackgroundContext } from './context';
+import Item from './components/item';
 
 export default function Home() {
-  const [initialText, setInitialText] = useState('hihihi');
-  const [springs, api] = useSpring(() => ({
-    from: { x: -200 },
-  }))
+  const [initialBackground, setInitialBackground] = useState('#111111');
 
-  const [bg, bgApi] = useSpring(() => ({
+  const [background, api] = useSpring(() => ({
     from: {
-      backgroundColor: 'black'
+      backgroundColor: initialBackground
     },
-
   }))
 
-  const handleClick = ({ text, bg }) => {
-    setInitialText(text);
+  return (
+    <BackgroundContext.Provider value={{ initialBackground, setInitialBackground, background, api }}>
+      <Body />
+    </BackgroundContext.Provider>
 
+  )
+}
+
+const Body = () => {
+  const { background, setInitialBackground } = useContext(BackgroundContext);
+
+  const [springs, api] = useSpring(() => ({
+    from: { x: -700 },
+  }))
+
+  const handleClick = ({ newBg }) => {
     api.start({
       x: 0
     })
 
-    bgApi.start({
-      backgroundColor: bg
-    })
+    if (newBg) {
+      setInitialBackground(newBg)
+    }
   }
 
-  const onMouseLeave = () => {
-    bgApi.start({
-      backgroundColor: 'black'
+  const handleBackClick = ({ newBg }) => {
+    api.start({
+      x: -700,
     })
+
+    if (newBg) {
+      setInitialBackground(newBg)
+    }
   }
 
-  return (
-    <animated.main style={{ display: 'flex', position: 'relative', ...bg }} >
-      <animated.div
-        style={{
-          width: '200px',
-          border: '1px solid blue',
-          ...springs
-        }}
-      >
-        <h1>{initialText}</h1>
-        <h1 onClick={() => {
-          api.start({ x: -200 })
-        }}>{"> back"}</h1>
-      </animated.div>
-      <animated.div style={{ border: '1px solid red', height: '100vh', ...springs }}>
-        <h1
-          onClick={() => { handleClick({ text: 'HIHIHI', bg: 'purple' }) }}
-          onMouseEnter={() => {
-            bgApi.start({ backgroundColor: 'purple' })
-          }}
-          onMouseLeave={onMouseLeave}
-        >
-          hello
-        </h1>
-        <h1
-          onClick={() => { handleClick({ text: 'HUHUHU', bg: 'blue' }) }}
-          onMouseEnter={() => {
-            bgApi.start({ backgroundColor: 'blue' })
-          }}
-          onMouseLeave={onMouseLeave}
-        >
-          goodbye
-        </h1>
+  return <animated.main style={{ display: 'flex', position: 'relative', height: '100vh', ...background }} >
+    <animated.div style={{ width: '700px', ...springs }}>
+      <Item textBlack backgroundColor="#FFDC00" onClick={handleClick}>Hello</Item>
+      <h2 style={{ fontSize: '50px' }}>Currently based in Copenhagen, Denmark.
 
-      </animated.div>
-      <div>
-      </div>
-    </animated.main >
-  )
+        Interested in understanding real-world challenges and using bleeding edge technology to solve them.
+      </h2>
+      <Item onClick={() => handleBackClick({ newBg: 'black' })}>{"> Back"}</Item>
+    </animated.div>
+    <animated.div style={{ width: '800px', ...springs }}>
+      <Item backgroundColor="#0074D9" onClick={handleClick}>Hello</Item>
+      <Item backgroundColor="#FF851B" onClick={() => handleClick({ newBg: '#FF851B' })}>Orange</Item>
+    </animated.div>
+  </animated.main >
 }

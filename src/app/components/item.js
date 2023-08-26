@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { BackgroundContext } from '../context';
 
 const Text = styled.h1`
-  font-size: 200px;
+  font-size: 20vw;
   font-weight: 600;
   display: flex;
 
@@ -15,9 +15,6 @@ const Text = styled.h1`
 const Item = ({ textBlack, springApi, backgroundColor, onClick, onMouseLeave, children }) => {
   const { initialBackground, api } = useContext(BackgroundContext);
 
-
-
-  console.log(color)
   return (
     <Text
       as="animated.h1"
@@ -28,7 +25,6 @@ const Item = ({ textBlack, springApi, backgroundColor, onClick, onMouseLeave, ch
         api.start({ backgroundColor: initialBackground })
       }}
       onClick={onClick}
-      style={{ ...color }}
     >
       {children}
     </Text>

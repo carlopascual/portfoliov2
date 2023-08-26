@@ -1,95 +1,75 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
+import { useState } from 'react';
+import { useSpring, animated } from '@react-spring/web'
 
 export default function Home() {
+  const [initialText, setInitialText] = useState('hihihi');
+  const [springs, api] = useSpring(() => ({
+    from: { x: -200 },
+  }))
+
+  const [bg, bgApi] = useSpring(() => ({
+    from: {
+      backgroundColor: 'black'
+    },
+
+  }))
+
+  const handleClick = ({ text, bg }) => {
+    setInitialText(text);
+
+    api.start({
+      x: 0
+    })
+
+    bgApi.start({
+      backgroundColor: bg
+    })
+  }
+
+  const onMouseLeave = () => {
+    bgApi.start({
+      backgroundColor: 'black'
+    })
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <animated.main style={{ display: 'flex', position: 'relative', ...bg }} >
+      <animated.div
+        style={{
+          width: '200px',
+          border: '1px solid blue',
+          ...springs
+        }}
+      >
+        <h1>{initialText}</h1>
+        <h1 onClick={() => {
+          api.start({ x: -200 })
+        }}>{"> back"}</h1>
+      </animated.div>
+      <animated.div style={{ border: '1px solid red', height: '100vh', ...springs }}>
+        <h1
+          onClick={() => { handleClick({ text: 'HIHIHI', bg: 'purple' }) }}
+          onMouseEnter={() => {
+            bgApi.start({ backgroundColor: 'purple' })
+          }}
+          onMouseLeave={onMouseLeave}
+        >
+          hello
+        </h1>
+        <h1
+          onClick={() => { handleClick({ text: 'HUHUHU', bg: 'blue' }) }}
+          onMouseEnter={() => {
+            bgApi.start({ backgroundColor: 'blue' })
+          }}
+          onMouseLeave={onMouseLeave}
+        >
+          goodbye
+        </h1>
+
+      </animated.div>
+      <div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </animated.main >
   )
 }

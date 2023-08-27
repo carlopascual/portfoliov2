@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { animated } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import { useContext } from 'react'
 import { BackgroundContext } from '../context';
 
@@ -7,13 +7,17 @@ const Text = styled.h1`
   font-size: 20vw;
   font-weight: 600;
   display: flex;
-
+  cursor: pointer;
+  width: fit-content;
+ 
+  
   &:hover {
-    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.07) translateX(5%) translateY(2%);
   }
 `
 
-const Item = ({ textColor, springApi, backgroundColor, onClick, onMouseLeave, children }) => {
+const Item = ({ style, textColor, backgroundColor, onClick, onMouseLeave, children }) => {
   const { initialBackground, initialColor, api } = useContext(BackgroundContext);
 
   return (
@@ -26,6 +30,7 @@ const Item = ({ textColor, springApi, backgroundColor, onClick, onMouseLeave, ch
         api.start({ backgroundColor: initialBackground, color: initialColor })
       }}
       onClick={onClick}
+      style={{ ...style, }}
     >
       {children}
     </Text>

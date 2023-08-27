@@ -113,12 +113,21 @@ const Body = () => {
 
   return <animated.main style={{ position: 'relative', height: '100vh', ...background }}>
     <Screen index={0}>
-      <Item backgroundColor="#0074D9" onClick={() => {
+      <Item backgroundColor="#0074D9" style={{ fontSize: '8vw' }} onClick={() => {
         nextScreen({ screenKey: 'Hello', newBg: null })
-      }}>Hello</Item>
+      }}>Hello and welcome!</Item>
       <Item backgroundColor="#FF851B" onClick={() => {
         nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
-      }}>Orange</Item>
+      }}>About</Item>
+      <Item backgroundColor="#333" onClick={() => {
+        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+      }}>Github</Item>
+      <Item backgroundColor="#FF0000" onClick={() => {
+        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+      }}>Youtube</Item>
+      <Item backgroundColor="#0077B5" onClick={() => {
+        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+      }}>LinkedIn</Item>
     </Screen>
     <Screen index={1}>
       {stateMap[1][currentScreenKey]}

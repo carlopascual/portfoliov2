@@ -4,6 +4,7 @@ import { useSpring, animated } from '@react-spring/web'
 import { BackgroundContext, ScreenPositionContext } from './context';
 import Item from './components/item';
 import Screen from './components/screen';
+import useFitText from "use-fit-text";
 import { MAIN_SCREEN_SIZE } from './constants';
 
 export default function Home() {
@@ -97,13 +98,23 @@ const Body = () => {
           Sample screen.
         </h2>
         <BackItem />
+      </>,
+      'Experience': <>
+        <Item style={{ fontSize: '8vw' }} >Experience</Item>
+        <Item style={{ fontSize: '8vw' }} onClick={nextScreen}>Unity Technologies</Item>
+        <Item backgroundColor="#000032" onClick={nextScreen}>Trustpilot</Item>
+        <Item onClick={nextScreen}>Feats</Item>
+        <Item backgroundColor="rgb(242, 125, 0)" onClick={nextScreen}>Quadric</Item>
+        <Item backgroundColor="#C74634" onClick={nextScreen}>Oracle</Item>
+        <Item backgroundColor="#00aeef" onClick={nextScreen}>FactSet</Item>
       </>
     },
     2: {
       'Hello': <>
         <Item textBlack backgroundColor="#FFDC00" onClick={nextScreen}>and welcome!</Item>
         <Item onClick={() => previousScreen({ newBg: 'black', newColor: 'white' })}>{"> Back"}</Item>
-      </>
+      </>,
+
     },
     3: {
       'Hello': <>
@@ -113,7 +124,7 @@ const Body = () => {
     }
   }
 
-  return <animated.main style={{ position: 'relative', overflow: 'scroll', height: '100vh', ...background }}>
+  return <animated.main style={{ position: 'relative', overflow: 'scroll', overflowX: 'hidden', height: '100vh', ...background }}>
     <Screen index={0}>
       <Item backgroundColor="#0074D9" style={{ fontSize: '8vw' }} onClick={() => {
         // nextScreen({ screenKey: 'Hello', newBg: null })
@@ -121,6 +132,9 @@ const Body = () => {
       <Item onClick={() => {
         nextScreen({ screenKey: 'Hello' })
       }}>About</Item>
+      <Item onClick={() => {
+        nextScreen({ screenKey: 'Experience' })
+      }}>Experience</Item>
       <Item backgroundColor="#333" onClick={() => {
         nextScreen({ screenKey: 'Orange', newBg: '#333' })
       }}>Github</Item>

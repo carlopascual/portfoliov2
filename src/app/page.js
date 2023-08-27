@@ -153,6 +153,6 @@ const Body = () => {
     <Screen index={3}>
       {stateMap[3][currentScreenKey]}
     </Screen>
-    <div style={{ position: 'absolute', height: '100%', right: 0, width: '20%', cursor: 'pointer' }} onClick={() => previousScreen({ newBg: 'black' })}>{currentScreenKey}</div>
+    <div style={{ position: 'fixed', height: '100%', right: 0, width: '20%', cursor: 'pointer' }} onClick={() => currentScreen !== 0 && previousScreen({ newBg: 'black' })}>{currentScreenKey}</div>
   </animated.main >
 }

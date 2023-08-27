@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { animated, useSpring } from '@react-spring/web';
+import { animated } from '@react-spring/web';
 import { useContext } from 'react'
 import { BackgroundContext } from '../context';
 

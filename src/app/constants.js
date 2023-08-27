@@ -1,0 +1,1 @@
+export const MAIN_SCREEN_SIZE = 80; // in VWs

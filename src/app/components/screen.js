@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { animated } from '@react-spring/web';
+import { animated, useInView } from '@react-spring/web';
 import { useContext } from 'react';
 import { ScreenPositionContext } from '../context';
 import { MAIN_SCREEN_SIZE } from '../constants'
@@ -18,9 +18,10 @@ const ScreenComponent = styled.div`
 
 const Screen = ({ index, children }) => {
     const { screenPosition } = useContext(ScreenPositionContext);
+    const [ref, inView] = useInView()
 
-    return <ScreenComponent as={animated.div} style={{ left: `-${MAIN_SCREEN_SIZE * index}vw`, ...screenPosition }}>
-        {children}
+    return <ScreenComponent ref={ref} as={animated.div} style={{ left: `-${MAIN_SCREEN_SIZE * index}vw`, ...screenPosition }}>
+        {inView ? children : null}
     </ScreenComponent>
 }
 

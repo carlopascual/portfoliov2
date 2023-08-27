@@ -8,10 +8,12 @@ import { MAIN_SCREEN_SIZE } from './constants';
 
 export default function Home() {
   const [initialBackground, setInitialBackground] = useState('#111111');
+  const [initialColor, setInitialColor] = useState('#FFFFFF');
 
   const [background, api] = useSpring(() => ({
     from: {
-      backgroundColor: initialBackground
+      backgroundColor: initialBackground,
+      color: initialColor,
     },
   }))
 
@@ -20,7 +22,7 @@ export default function Home() {
   }))
 
   return (
-    <BackgroundContext.Provider value={{ initialBackground, setInitialBackground, background, api }}>
+    <BackgroundContext.Provider value={{ initialBackground, setInitialBackground, background, api, initialColor, setInitialColor }}>
       <ScreenPositionContext.Provider value={{ screenPosition, screenPositionApi }}>
         <Body />
       </ScreenPositionContext.Provider>
@@ -32,10 +34,10 @@ export default function Home() {
 const Body = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [currentScreenKey, setCurrentScreenKey] = useState(null);
-  const { background, setInitialBackground } = useContext(BackgroundContext);
+  const { background, setInitialBackground, setInitialColor } = useContext(BackgroundContext);
   const { screenPosition, screenPositionApi } = useContext(ScreenPositionContext);
 
-  const nextScreen = ({ screenKey, newBg }) => {
+  const nextScreen = ({ screenKey, newBg, newColor }) => {
     const nextScreen = currentScreen + 1;
 
     screenPositionApi.start({
@@ -53,9 +55,13 @@ const Body = () => {
       setInitialBackground(newBg)
     }
 
+    if (newColor) {
+      setInitialColor(newColor);
+    }
+
   }
 
-  const previousScreen = ({ newBg }) => {
+  const previousScreen = ({ newBg, newColor }) => {
     const previousScreen = currentScreen - 1;
 
     screenPositionApi.start({
@@ -67,12 +73,19 @@ const Body = () => {
     if (newBg) {
       setInitialBackground(newBg)
     }
+
+    if (newColor) {
+      setInitialColor(newColor);
+    }
+
   }
 
   const stateMap = {
     1: {
       'Hello': <>
-        <Item textBlack backgroundColor="#FFDC00" onClick={nextScreen}>Hello</Item>
+        <Item textColor={'#111111'} backgroundColor="#FFDC00" onClick={() => {
+          nextScreen({ newColor: '#111111', newBg: '#FFDC00' })
+        }}>Hello</Item>
         <h2 style={{ fontSize: '50px' }}>Currently based in Copenhagen, Denmark.
           Interested in understanding real-world challenges and using bleeding edge technology to solve them.
         </h2>
@@ -87,7 +100,7 @@ const Body = () => {
     2: {
       'Hello': <>
         <Item textBlack backgroundColor="#FFDC00" onClick={nextScreen}>You got here?</Item>
-        <Item onClick={() => previousScreen({ newBg: 'black' })}>{"> Back"}</Item>
+        <Item onClick={() => previousScreen({ newBg: 'black', newColor: 'white' })}>{"> Back"}</Item>
       </>
     },
     3: {

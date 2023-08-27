@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { animated } from '@react-spring/web';
 import { useContext } from 'react'
 import { BackgroundContext } from '../context';
 
@@ -12,17 +13,17 @@ const Text = styled.h1`
   }
 `
 
-const Item = ({ textBlack, springApi, backgroundColor, onClick, onMouseLeave, children }) => {
-  const { initialBackground, api } = useContext(BackgroundContext);
+const Item = ({ textColor, springApi, backgroundColor, onClick, onMouseLeave, children }) => {
+  const { initialBackground, initialColor, api } = useContext(BackgroundContext);
 
   return (
     <Text
-      as="animated.h1"
+      as={animated.h1}
       onMouseEnter={() => {
-        api.start({ backgroundColor: backgroundColor })
+        api.start({ backgroundColor: backgroundColor, ...(textColor && { color: textColor }) })
       }}
       onMouseLeave={() => {
-        api.start({ backgroundColor: initialBackground })
+        api.start({ backgroundColor: initialBackground, color: initialColor })
       }}
       onClick={onClick}
     >

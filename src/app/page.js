@@ -4,7 +4,6 @@ import { useSpring, animated } from '@react-spring/web'
 import { BackgroundContext, ScreenPositionContext } from './context';
 import Item from './components/item';
 import Screen from './components/screen';
-import useFitText from "use-fit-text";
 import { MAIN_SCREEN_SIZE } from './constants';
 
 export default function Home() {

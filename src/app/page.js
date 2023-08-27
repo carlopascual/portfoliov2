@@ -5,6 +5,7 @@ import { BackgroundContext, ScreenPositionContext } from './context';
 import Item from './components/item';
 import Screen from './components/screen';
 import { MAIN_SCREEN_SIZE } from './constants';
+import StyledComponentsRegistry from './lib/registry'
 
 export default function Home() {
   const [initialBackground, setInitialBackground] = useState('#111111');
@@ -24,7 +25,9 @@ export default function Home() {
   return (
     <BackgroundContext.Provider value={{ initialBackground, setInitialBackground, background, api, initialColor, setInitialColor }}>
       <ScreenPositionContext.Provider value={{ screenPosition, screenPositionApi }}>
-        <Body />
+        <StyledComponentsRegistry>
+          <Body />
+        </StyledComponentsRegistry>
       </ScreenPositionContext.Provider>
     </BackgroundContext.Provider>
 

@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { BackgroundContext } from '../context';
 
 const Text = styled.h1`
-  font-size: 20vw;
+  font-size: 12vw;
   font-weight: 600;
   display: flex;
   cursor: pointer;

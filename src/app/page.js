@@ -77,56 +77,58 @@ const Body = () => {
     if (newColor) {
       setInitialColor(newColor);
     }
-
   }
+
+  const BackItem = () => <Item style={{ fontSize: '10vw' }} onClick={() => previousScreen({ newBg: 'black' })}>{"> Back"}</Item>
 
   const stateMap = {
     1: {
       'Hello': <>
         <Item textColor={'#111111'} backgroundColor="#FFDC00" onClick={() => {
           nextScreen({ newColor: '#111111', newBg: '#FFDC00' })
-        }}>Hello</Item>
+        }}>Hello!</Item>
         <h2 style={{ fontSize: '50px' }}>Currently based in Copenhagen, Denmark.
           Interested in understanding real-world challenges and using bleeding edge technology to solve them.
         </h2>
-        <Item onClick={() => previousScreen({ newBg: 'black' })}>{"> Back"}</Item></>,
+        <BackItem />
+      </>,
       'Orange': <>
         <h2 style={{ fontSize: '50px' }}>
-          Sample orange screen.
+          Sample screen.
         </h2>
-        <Item onClick={() => previousScreen({ newBg: 'black' })}>{"> Back"}</Item>
+        <BackItem />
       </>
     },
     2: {
       'Hello': <>
-        <Item textBlack backgroundColor="#FFDC00" onClick={nextScreen}>You got here?</Item>
+        <Item textBlack backgroundColor="#FFDC00" onClick={nextScreen}>and welcome!</Item>
         <Item onClick={() => previousScreen({ newBg: 'black', newColor: 'white' })}>{"> Back"}</Item>
       </>
     },
     3: {
       'Hello': <>
         <Item textBlack backgroundColor="#FFDC00" onClick={nextScreen}>Another one!</Item>
-        <Item onClick={() => previousScreen({ newBg: 'black' })}>{"> Back"}</Item>
+        <BackItem />
       </>
     }
   }
 
-  return <animated.main style={{ position: 'relative', height: '100vh', ...background }}>
+  return <animated.main style={{ position: 'relative', overflow: 'scroll', height: '100vh', ...background }}>
     <Screen index={0}>
       <Item backgroundColor="#0074D9" style={{ fontSize: '8vw' }} onClick={() => {
-        nextScreen({ screenKey: 'Hello', newBg: null })
-      }}>Hello and welcome!</Item>
-      <Item backgroundColor="#FF851B" onClick={() => {
-        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+        // nextScreen({ screenKey: 'Hello', newBg: null })
+      }}>Carlo Pascual</Item>
+      <Item onClick={() => {
+        nextScreen({ screenKey: 'Hello' })
       }}>About</Item>
       <Item backgroundColor="#333" onClick={() => {
-        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+        nextScreen({ screenKey: 'Orange', newBg: '#333' })
       }}>Github</Item>
       <Item backgroundColor="#FF0000" onClick={() => {
-        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+        nextScreen({ screenKey: 'Orange', newBg: '#FF0000' })
       }}>Youtube</Item>
       <Item backgroundColor="#0077B5" onClick={() => {
-        nextScreen({ screenKey: 'Orange', newBg: '#FF851B' })
+        nextScreen({ screenKey: 'Orange', newBg: '#0077B5' })
       }}>LinkedIn</Item>
     </Screen>
     <Screen index={1}>

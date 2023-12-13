@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { animated } from "@react-spring/web";
 import { useContext } from "react";
-import { BackgroundContext } from "../context";
+import { BackgroundContext, ScreenPositionContext } from "../context";
 
 const Text = styled.h1`
   font-size: 12vw;
@@ -39,7 +39,7 @@ const Item = ({
       onMouseLeave={() => {
         api.start({ backgroundColor: initialBackground, color: initialColor });
       }}
-      onClick={() => onClick({ screenKey: children })}
+      onClick={onClick}
       style={{ ...style }}
     >
       {children}
@@ -47,4 +47,16 @@ const Item = ({
   );
 };
 
+export const NextItem = ({ children, nextScreenProps, ...props }) => {
+  const { nextScreen } = useContext(ScreenPositionContext);
+
+  return (
+    <Item
+      {...props}
+      onClick={() => nextScreen({ screenKey: children, ...nextScreenProps })}
+    >
+      {children}
+    </Item>
+  );
+};
 export default Item;

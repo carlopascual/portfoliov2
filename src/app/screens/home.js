@@ -1,11 +1,10 @@
 import Item, { NextItem } from "../components/item";
+import Header from "../components/header";
 
 const Home = ({ nextScreen }) => {
   return (
     <>
-      <Item backgroundColor="#0074D9" style={{ fontSize: "8vw" }}>
-        Carlo Pascual
-      </Item>
+      <Header backgroundColor="#0074D9">Carlo Pascual</Header>
       <NextItem>About</NextItem>
       <NextItem>Experience</NextItem>
       <NextItem

@@ -1,6 +1,6 @@
 import Item, { BackItem } from "../components/item";
 
-const About = () => {
+const NotFound = () => {
   return (
     <>
       <Item
@@ -11,15 +11,14 @@ const About = () => {
           newBg: "#FFDC00",
         }}
       >
-        Hello!
+        ¯\_(ツ)_/¯
       </Item>
       <h2 style={{ fontSize: "50px" }}>
-        Currently based in Copenhagen, Denmark. Interested in understanding
-        real-world challenges and using bleeding edge technology to solve them.
+        This page is still under construction.
       </h2>
       <BackItem />
     </>
   );
 };
 
-export default About;
+export default NotFound;

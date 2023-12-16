@@ -1,17 +1,21 @@
 "use client";
-import { useState, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { BackgroundContext, ScreenPositionContext } from "./context";
-import Item from "./components/item";
 import Screen from "./components/screen";
 import { MAIN_SCREEN_SIZE } from "./constants";
 import StyledComponentsRegistry from "./lib/registry";
 import componentMap from "./screens";
 
+const initialScreen = ["Home"];
+
 export default function Home() {
+  const [screenPointer, setScreenPointer] = useState(0);
   const [initialBackground, setInitialBackground] = useState("#111111");
   const [initialColor, setInitialColor] = useState("#FFFFFF");
-  const [screenKeys, setScreenKeys] = useState(["Home"]);
+
+  const [animationState, setAnimationState] = useState(false);
+  const [screenKeys, setScreenKeys] = useState(initialScreen);
 
   const [background, api] = useSpring(() => ({
     from: {
@@ -24,15 +28,24 @@ export default function Home() {
     from: { x: "0vw" },
   }));
 
-  const nextScreen = ({ screenKey, newBg, newColor }) => {
+  useEffect(() => {
     screenPositionApi.start({
-      x: `${MAIN_SCREEN_SIZE * screenKeys.length}vw`,
-    });
+      x: `${MAIN_SCREEN_SIZE * screenPointer}vw`,
+      onRest: () => {
+        if (animationState === "back")
+          setScreenKeys((prev) => prev.slice(0, -1));
 
-    if (screenKey) {
-      // push into screen keys
-      setScreenKeys([...screenKeys, screenKey]);
-    }
+        setAnimationState(false);
+      },
+    });
+  }, [screenPointer]);
+
+  const nextScreen = ({ screenKey, newBg, newColor }) => {
+    if (animationState) return;
+
+    setScreenKeys((prev) => [...prev, screenKey]);
+    setAnimationState("next");
+    setScreenPointer((prev) => prev + 1);
 
     if (newBg) {
       setInitialBackground(newBg);
@@ -44,12 +57,12 @@ export default function Home() {
   };
 
   const previousScreen = ({ newBg, newColor }) => {
-    screenPositionApi.start({
-      x: `${MAIN_SCREEN_SIZE * (screenKeys.length - 2)}vw`,
-      onRest: () => {
-        setScreenKeys((prevKeys) => prevKeys.slice(0, -1));
-      },
-    });
+    if (animationState) return;
+
+    if (screenPointer > 0) {
+      setAnimationState("back");
+      setScreenPointer((prev) => prev - 1);
+    }
 
     if (newBg) {
       setInitialBackground(newBg);
@@ -90,7 +103,7 @@ export default function Home() {
             }}
           >
             {screenKeys.map((value, index) => {
-              const Component = componentMap[value];
+              const Component = componentMap.getScreen(value);
 
               return (
                 <Screen key={index} index={index}>
@@ -106,10 +119,10 @@ export default function Home() {
                 width: "20%",
                 cursor: "pointer",
               }}
-              onClick={() =>
-                screenKeys.length > 1 && previousScreen({ newBg: "black" })
-              }
-            />
+              onClick={() => previousScreen({ newBg: "black" })}
+            >
+              {animationState}
+            </div>
           </animated.main>
         </StyledComponentsRegistry>
       </ScreenPositionContext.Provider>

@@ -11,7 +11,6 @@ const Home = ({ nextScreen }) => {
       <NextItem
         backgroundColor="#333"
         nextScreenProps={{
-          screenKey: "Orange",
           newBg: "#333",
         }}
       >

@@ -52,11 +52,26 @@ export const NextItem = ({ children, nextScreenProps, ...props }) => {
 
   return (
     <Item
-      {...props}
       onClick={() => nextScreen({ screenKey: children, ...nextScreenProps })}
+      {...props}
     >
       {children}
     </Item>
   );
 };
+
+export const BackItem = ({ previousScreenProps, ...props }) => {
+  const { previousScreen } = useContext(ScreenPositionContext);
+
+  return (
+    <Item
+      style={{ fontSize: "10vw" }}
+      onClick={() => previousScreen({ newBg: "black", previousScreenProps })}
+      {...props}
+    >
+      {"> Back"}
+    </Item>
+  );
+};
+
 export default Item;
